@@ -1,0 +1,17 @@
+#忽略build目录下的文件
+/build/*
+#忽略.vscode目录下的文件
+/.vscode/*
+/.cache/*
+
+#忽略.idea目录下的文件
+/.idea/*
+
+#忽略二进制文件
+/bin/*
+
+#忽略动态库和静态库
+*.so
+*.a
+
+!/bin/conf/
