@@ -41,4 +41,29 @@ private:
     dynamic_format_specs<CharT> specs_;
 };
 
+#define _FORMAT_SPECIALIZE_FOR(Type, ArgType) \
+    template <format_supported_charT CharT>   \
+    struct formatter<Type, CharT> : formatter_base<Type, CharT, ArgType> { }
+
+_FORMAT_SPECIALIZE_FOR(int, basic_format_arg_type::int_type);
+_FORMAT_SPECIALIZE_FOR(unsigned int, basic_format_arg_type::uint_type);
+_FORMAT_SPECIALIZE_FOR(long long, basic_format_arg_type::long_long_type);
+_FORMAT_SPECIALIZE_FOR(unsigned long long, basic_format_arg_type::ulong_long_type);
+_FORMAT_SPECIALIZE_FOR(bool, basic_format_arg_type::bool_type);
+_FORMAT_SPECIALIZE_FOR(float, basic_format_arg_type::float_type);
+_FORMAT_SPECIALIZE_FOR(double, basic_format_arg_type::double_type);
+_FORMAT_SPECIALIZE_FOR(long double, basic_format_arg_type::long_double_type);
+_FORMAT_SPECIALIZE_FOR(std::nullptr_t, basic_format_arg_type::pointer_type);
+_FORMAT_SPECIALIZE_FOR(void*, basic_format_arg_type::pointer_type);
+_FORMAT_SPECIALIZE_FOR(const void*, basic_format_arg_type::pointer_type);
+_FORMAT_SPECIALIZE_FOR(short, basic_format_arg_type::int_type);
+_FORMAT_SPECIALIZE_FOR(unsigned short, basic_format_arg_type::uint_type);
+_FORMAT_SPECIALIZE_FOR(long, basic_format_arg_type::int_type);
+_FORMAT_SPECIALIZE_FOR(unsigned long, basic_format_arg_type::uint_type);
+_FORMAT_SPECIALIZE_FOR(char, basic_format_arg_type::char_type);
+_FORMAT_SPECIALIZE_FOR(signed char, basic_format_arg_type::int_type);
+_FORMAT_SPECIALIZE_FOR(unsigned char, basic_format_arg_type::uint_type);
+
+#undef _FORMAT_SPECIALIZE_FOR
+
 } // namespace fmt

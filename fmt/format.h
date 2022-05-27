@@ -5,6 +5,8 @@
 #include "format_arg.h"
 #include "fmt_buffer.h"
 #include "format_context.h"
+#include "format_arg_traits.h"
+#include "format_arg_store.h"
 
 namespace fmt {
 
@@ -22,30 +24,6 @@ struct basic_format_string {
     }
 };
 
-template <class _Context>
-struct format_arg_traits {
-    using _Char_type = typename _Context::char_type;
-
-
-};
-
-
-template <class _Context, class... _Args>
-class format_arg_store {
-private:
-    using _CharType = typename _Context::char_type;
-    using _Traits = format_arg_store<_Context>;
-
-};
-
-template <class _Context>
-class basic_format_args {
-public:
-    basic_format_args() noexcept = default;
-    // basic_format_args(const );
-
-};
-
 template <class... _Args>
 using fmt_string = basic_format_string<char, std::type_identity_t<_Args>...>;
 
@@ -61,18 +39,32 @@ template <class _Context = format_context, class... _Args>
     return format_arg_store<_Context, _Args...>{args...};
 }
 
+template <class... _Args>
+[[nodiscard]] auto make_wformat_args(_Args&&... args) {
+    return format_arg_store<wformat_context, _Args...>{args...};
+}
+
+template <std::output_iterator<const char&> OutputIt>
+OutputIt vformat_to(OutputIt out, const std::string_view fmt, const format_args args) {
+    if constexpr (std::is_same_v<OutputIt, fmt_it>) {
+
+    } else {
+        
+    }
+    return out;
+}
+
 template <typename... _Args>
 [[nodiscard]] std::string vformat(const std::string_view fmt, const format_args args) {
     std::string str;
-    // str.reserve(fmt.size() + args.);
-
+    str.reserve(fmt.size() + args.estimate_required_capacity());
+    vformat_to(std::back_insert_iterator{str}, fmt, args);
     return str;
 }
 
 template <typename... _Args>
 [[nodiscard]] inline std::string format(const fmt_string<_Args...> fmt, _Args&&... args) {
-
-    return "";
+    return vformat(fmt.str_, make_format_args(args...));
 }
 
 } // namespace fmt

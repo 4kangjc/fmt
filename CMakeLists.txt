@@ -5,13 +5,14 @@ project(fmt)
 
 set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS}\
     -rdynamic\
-    -O3\
+    -O0\
     -ggdb\
     -std=c++2a\
     -Wall\
     -Werror\
     -Wno-unused-function\
-    -Wno-builtin-macro-redefined"
+    -Wno-builtin-macro-redefined\
+    -Wno-array-bounds"
 )
 
 include_directories(./)
